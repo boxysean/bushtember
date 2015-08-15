@@ -10,5 +10,9 @@ https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/
 import os
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bushtember.settings")
 
+# hack to add right path... :P
+import sys
+sys.path.append('/opt/python/current/app/bushtember')
+
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()

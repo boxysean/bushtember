@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load url from future %}
+{% load bootstrap_tags %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 subscribe-form">
+            <h2>Donate to Bushtember</h2>
+            <p>Choose a donation amount:</p>
+            {% if error %}
+                <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+            <form action="{% url 'payments_ajax_subscribe' %}" class="form ajax"  data-stripe-key="{{ STRIPE_PUBLIC_KEY }}" data-replace-closest=".subscribe-form" method="POST">
+                {% csrf_token %}
+                {{ form|as_bootstrap }}
+                <input name="stripe_token" type="hidden" />
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Donate</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block more-scripts %}
+<script src="//checkout.stripe.com/v2/checkout.js"></script>
+<script>
+    $(function() {
+        $('body').on("click", '.change-card, .subscribe-form button[type=submit]', function(e) {
+          e.preventDefault();
+          var $form = $(this).closest("form"),
+              token = function(res) {
+                $form.find("input[name=stripe_token]").val(res.id);
+                $form.trigger("submit");
+              };
+
+          StripeCheckout.open({
+            key:         $form.data("stripe-key"),
+            name:        'Payment Method',
+            panelLabel:  'Add Payment Method',
+            token:       token
+          });
+
+          return false;
+        });
+    });
+</script>
+{% endblock %}

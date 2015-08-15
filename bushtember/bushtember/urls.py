@@ -15,7 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-]
+    url(r"^payments/", include("payments.urls")),
+    url(r'^donations/', include('donations.urls')),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

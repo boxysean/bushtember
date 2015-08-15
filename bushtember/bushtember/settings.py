@@ -37,6 +37,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_forms_bootstrap',
+    'payments',
+    'donations',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -55,7 +58,7 @@ ROOT_URLCONF = 'bushtember.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates').replace('\\','/'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -112,3 +115,36 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+
+# Stripe settings
+
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "<your publishable test key>")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "<your secret test key>")
+
+PAYMENTS_PLANS = {
+    "cheapest": {
+        "stripe_plan_id": "pro-monthly",
+        "name": "$5",
+        "description": "The monthly subscription plan to WebApp",
+        "price": 25,
+        "currency": "usd",
+        "interval": "month"
+    },
+    "cheaper": {
+        "stripe_plan_id": "pro-yearly",
+        "name": "$10",
+        "description": "The annual subscription plan to WebApp",
+        "price": 199,
+        "currency": "usd",
+        "interval": "year"
+    },
+    "cheap": {
+        "stripe_plan_id": "pro-monthly-trial",
+        "name": "$25",
+        "description": "The monthly subscription plan to WebApp",
+        "price": 25,
+        "currency": "usd",
+        "interval": "month",
+        "trial_period_days": 30
+    },
+}

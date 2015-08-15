@@ -8,6 +8,7 @@ botocore==1.1.8
 cement==2.4.0
 colorama==0.3.3
 decorator==4.0.2
+django-forms-bootstrap==3.0.1
 django-jsonfield==0.9.15
 django-stripe-payments==2.0.0
 docker-py==1.1.0

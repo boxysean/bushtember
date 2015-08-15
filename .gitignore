@@ -1,5 +1,7 @@
 venv
 db.sqlite3
+*.pyc
+www/static/**
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

@@ -1,4 +1,5 @@
 Django==1.8.3
+PyJWT==1.4.0
 PyYAML==3.11
 appnope==0.1.0
 awsebcli==3.5
@@ -10,7 +11,7 @@ colorama==0.3.3
 decorator==4.0.2
 django-forms-bootstrap==3.0.1
 django-jsonfield==0.9.15
-django-stripe-payments==2.0.0
+django-money==0.7.1
 docker-py==1.1.0
 dockerpty==0.3.4
 docopt==0.6.2
@@ -19,14 +20,19 @@ gnureadline==6.3.3
 ipython==4.0.0
 ipython-genutils==0.1.0
 jmespath==0.7.1
+oauthlib==1.0.1
 path.py==7.6
 pathspec==0.3.3
 pexpect==3.3
 pickleshare==0.5
 psycopg2==2.6.1
+py-moneyed==0.6.0
 python-dateutil==2.4.2
+python-openid==2.2.5
+python-social-auth==0.2.12
 pytz==2015.4
 requests==2.6.2
+requests-oauthlib==0.5.0
 simplegeneric==0.8.1
 six==1.9.0
 stripe==1.24.1

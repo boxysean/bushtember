@@ -16,6 +16,12 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# add custom django-stripe-payments
+
+import sys
+sys.path.append(os.path.join(BASE_DIR, '../django-stripe-payments'))
+print sys.path
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
@@ -38,6 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_forms_bootstrap',
+    'djmoney',
     'payments',
     'donations',
 )
@@ -120,31 +127,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "<your publishable test key>")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "<your secret test key>")
-
-PAYMENTS_PLANS = {
-    "cheapest": {
-        "stripe_plan_id": "pro-monthly",
-        "name": "$5",
-        "description": "The monthly subscription plan to WebApp",
-        "price": 25,
-        "currency": "usd",
-        "interval": "month"
-    },
-    "cheaper": {
-        "stripe_plan_id": "pro-yearly",
-        "name": "$10",
-        "description": "The annual subscription plan to WebApp",
-        "price": 199,
-        "currency": "usd",
-        "interval": "year"
-    },
-    "cheap": {
-        "stripe_plan_id": "pro-monthly-trial",
-        "name": "$25",
-        "description": "The monthly subscription plan to WebApp",
-        "price": 25,
-        "currency": "usd",
-        "interval": "month",
-        "trial_period_days": 30
-    },
-}

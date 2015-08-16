@@ -5,16 +5,21 @@
 {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col-md-4 subscribe-form">
+        <div class="col-md-4 donate-form">
+            {% if amount %}
+            <div class="alert alert-success" role="alert">Thanks for your donation of ${{ amount }}!</div>
+            {% endif %}
+
             <h2>Donate to Bushtember</h2>
             <p>Choose a donation amount:</p>
             {% if error %}
                 <div class="alert alert-error">{{ error }}</div>
             {% endif %}
-            <form action="{% url 'payments_ajax_subscribe' %}" class="form ajax"  data-stripe-key="{{ settings.STRIPE_PUBLIC_KEY }}" data-replace-closest=".subscribe-form" method="POST">
+            <form action="{% url 'payments_ajax_donate' %}" class="form ajax"  data-stripe-key="{{ settings.STRIPE_PUBLIC_KEY }}" data-replace-closest=".donate-form" method="POST">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
                 <input name="stripe_token" type="hidden" />
+                <input name="location" type="hidden" value="{% url 'donations.views.demo_upload_view' %}" />
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">Donate</button>
                 </div>
@@ -28,7 +33,7 @@
 <script src="//checkout.stripe.com/v2/checkout.js"></script>
 <script>
     $(function() {
-        $('body').on("click", '.change-card, .subscribe-form button[type=submit]', function(e) {
+        $('body').on("click", '.change-card, .donate-form button[type=submit]', function(e) {
           e.preventDefault();
           var $form = $(this).closest("form"),
               token = function(res) {
@@ -38,8 +43,8 @@
 
           StripeCheckout.open({
             key:         $form.data("stripe-key"),
-            name:        'Payment Method',
-            panelLabel:  'Add Payment Method',
+            name:        'Donate to Bushtember',
+            panelLabel:  'Donate',
             token:       token
           });
 

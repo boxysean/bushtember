@@ -1,0 +1,3 @@
+[submodule "django-stripe-payments"]
+	path = django-stripe-payments
+	url = git@github.com:boxysean/django-stripe-payments.git

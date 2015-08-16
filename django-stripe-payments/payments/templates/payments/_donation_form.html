@@ -1,0 +1,18 @@
+{% load url from future %}
+{% load bootstrap_tags %}
+
+<div class="donate-form">
+    <h2>Donation</h2>
+    <p class="lead">Donation.</p>
+    {% if error %}
+        <div class="alert alert-error">{{ error }}</div>
+    {% endif %}
+    <form action="{% url 'payments_ajax_donate' %}" class="form ajax"  data-stripe-key="{{ STRIPE_PUBLIC_KEY }}" data-replace-closest=".donate-form" method="POST">
+        {% csrf_token %}
+        {{ form|as_bootstrap }}
+        <input name="stripe_token" type="hidden" />
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Donate</button>
+        </div>
+    </form>
+</div>

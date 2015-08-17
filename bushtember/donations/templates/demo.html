@@ -43,7 +43,9 @@
 
           StripeCheckout.open({
             key:         $form.data("stripe-key"),
-            name:        'Donate to Bushtember',
+            name:        'Bushtember',
+            description: 'Donating to Bushtember',
+            amount:      $('#id_amount').value,
             panelLabel:  'Donate',
             token:       token
           });

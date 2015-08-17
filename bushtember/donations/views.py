@@ -1,9 +1,6 @@
 from django.shortcuts import render, render_to_response
 from django.conf import settings
 
-import payments
-import payments.forms
-print dir(payments.forms)
 from payments.forms import DonateForm
 
 

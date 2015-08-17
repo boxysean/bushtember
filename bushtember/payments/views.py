@@ -161,13 +161,19 @@ def donate(request, form_class=DonateForm):
     data = {}
     form = form_class(request.POST)
     if form.is_valid():
+        print "request.POST:", request.POST
+        print "form:", form
         try:
-            try:
-                customer = request.user.customer
-            except ObjectDoesNotExist:
-                customer = Customer.create(request.user)
-            if request.POST.get("stripe_token"):
-                customer.update_card(request.POST.get("stripe_token"))
+            token = request.POST.get("stripe_token")
+
+            stripe_customer = stripe.Customer.create(source=token)
+
+            customer, customer_created = Customer.objects.get_or_create(stripe_id=stripe_customer.stripe_id, defaults={
+                'card_fingerprint': stripe_customer.cards['data'][0]['fingerprint'],
+                'card_last_4': stripe_customer.cards['data'][0]['last4'],
+                'card_kind': stripe_customer.cards['data'][0]['type'],
+            })
+
             customer.charge(form.cleaned_data["amount"], send_receipt=False)
             data["form"] = form_class()
             data["location"] = request.POST.get('location', reverse("payments_history"))

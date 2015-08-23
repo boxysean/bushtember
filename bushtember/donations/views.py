@@ -15,4 +15,4 @@ def demo_view(request):
 def demo_upload_view(request):
 	return render_to_response('demo_upload.html', {
 		'settings': settings,
-	})	
+	})

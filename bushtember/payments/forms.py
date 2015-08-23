@@ -10,3 +10,9 @@ class PlanForm(forms.Form):
 
 class DonateForm(forms.Form):
     amount = forms.DecimalField() # TODO: improve
+
+    def clean(self):
+        cleaned_data = super(DonateForm, self).clean()
+
+        if cleaned_data.amount <= 0:
+            raise forms.ValidationError('amount must be greater than zero')

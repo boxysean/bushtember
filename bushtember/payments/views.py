@@ -60,7 +60,7 @@ class SubscribeView(PaymentsContextMixin, TemplateView):
 
 
 class DonateView(PaymentsContextMixin, TemplateView):
-    template_name = "payments/subscribe.html"
+    template_name = "donations/demo.html"
 
     def get_context_data(self, **kwargs):
         context = super(DonateView, self).get_context_data(**kwargs)
@@ -183,7 +183,7 @@ def donate(request, form_class=DonateForm):
     else:
         data["error"] = form.errors
         data["form"] = form
-    return _ajax_response(request, "payments/_donation_form.html", **data)
+    return _ajax_response(request, "donations/demo.html", **data)
 
 
 @require_POST

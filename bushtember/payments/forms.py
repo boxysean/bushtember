@@ -14,5 +14,5 @@ class DonateForm(forms.Form):
     def clean(self):
         cleaned_data = super(DonateForm, self).clean()
 
-        if cleaned_data.amount <= 0:
+        if cleaned_data['amount'] <= 0:
             raise forms.ValidationError('amount must be greater than zero')

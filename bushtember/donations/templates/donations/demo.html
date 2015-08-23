@@ -60,7 +60,7 @@
                 key:         form.data("stripe-key"),
                 name:        'Bushtember',
                 description: 'Donating to Bushtember',
-                amount:      amount,
+                amount:      parseFloat(amount) * 100,
                 panelLabel:  'Donate',
                 token:       token
             });

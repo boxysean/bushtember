@@ -4,6 +4,7 @@ from . import views
 
 
 urlpatterns = patterns('',
-    url(r'^$', views.demo_view),
-    url(r'^upload$', views.demo_upload_view),
+    url(r'^$', views.donate_view),
+    url(r'^upload/$', views.upload_photo_view),
+    url(r'^upload/(?P<upload_token_value>\w+)/$', views.upload_photo_view),
 )

@@ -128,7 +128,6 @@ admin.site.register(
         "paid",
         "disputed",
         "refunded",
-        "card_kind",
         "created_at"
     ],
     raw_id_fields=[
@@ -192,14 +191,19 @@ admin.site.register(
     Customer,
     raw_id_fields=["user"],
     list_display=[
+        'address_city',
+        'address_country',
+        'address_line1',
+        'address_line2',
+        'address_state',
+        'address_zip',
+        'email',
+        'date_purged',
         "stripe_id",
         "user",
-        "card_kind",
-        "card_last_4",
         subscription_status
     ],
     list_filter=[
-        "card_kind",
         CustomerHasCardListFilter,
         CustomerSubscriptionStatusListFilter
     ],

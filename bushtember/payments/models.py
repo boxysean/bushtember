@@ -310,15 +310,21 @@ class Customer(StripeObject):
         getattr(settings, "AUTH_USER_MODEL", "auth.User"),
         null=True
     )
-    card_fingerprint = models.CharField(max_length=200, blank=True)
-    card_last_4 = models.CharField(max_length=4, blank=True)
-    card_kind = models.CharField(max_length=50, blank=True)
+
+    name = models.CharField(max_length=127, null=True)
+    address_city = models.CharField(max_length=127, null=True)
+    address_country = models.CharField(max_length=127, null=True)
+    address_line1 = models.CharField(max_length=127, null=True)
+    address_line2 = models.CharField(max_length=127, null=True)
+    address_state = models.CharField(max_length=127, null=True)
+    address_zip = models.CharField(max_length=127, null=True)
+    email = models.CharField(max_length=127, null=True)
     date_purged = models.DateTimeField(null=True, editable=False)
 
     objects = CustomerManager()
 
     def __unicode__(self):
-        return smart_str(self.user)
+        return smart_str(self.name)
 
     @property
     def stripe_customer(self):

@@ -6,22 +6,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 donate-form">
-            {% if amount %}
-            <div class="alert alert-success" role="alert">Thanks for your donation of ${{ amount }}!</div>
-            {% endif %}
-
             <h2>Donate to Bushtember</h2>
             <p>Choose a donation amount:</p>
             {% if error %}
-                <div class="alert alert-error">{{ error }}</div>
+            <div class="alert alert-error">{{ error }}</div>
             {% endif %}
-            <form action="{% url 'payments_ajax_donate' %}" class="form ajax"  data-stripe-key="{{ settings.STRIPE_PUBLIC_KEY }}" data-replace-closest=".donate-form" method="POST">
+            <form action="{% url 'payments_ajax_donate' %}" class="form"  data-stripe-key="{{ settings.STRIPE_PUBLIC_KEY }}" data-replace-closest=".donate-form" method="POST">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
-                <button type="submit" class="btn btn-primary">Donate</button>
+                <button type="submit" class="btn btn-primary has-spinner" id="donate-button"><span class="spinner"><i class="glyphicon glyphicon-refresh glyphicon-spin "></i></span>Donate</button>
 
                 <input name="stripe_token" type="hidden" />
-                <input name="location" type="hidden" value="{% url 'donations.views.demo_upload_view' %}" />
+                <input name="location" type="hidden" value="{% url 'donations.views.upload_photo_view' %}" />
             </form>
         </div>
     </div>
@@ -52,8 +48,13 @@
             var form = $(this).closest("form");
 
             var token = function(res) {
+                // This gets triggered if StripeCheckout.open() is executing the transaction
+                
                 form.find("input[name=stripe_token]").val(res.id);
                 form.trigger("submit");
+
+                $('#donate-button').addClass('active')
+                                   .prop('disabled', 'true');
             };
 
             StripeCheckout.open({

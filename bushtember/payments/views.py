@@ -1,4 +1,5 @@
 import json
+import logging
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -11,6 +12,7 @@ from django.views.generic import TemplateView
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
 
 import stripe
 
@@ -22,6 +24,8 @@ from .models import (
     Event,
     EventProcessingException
 )
+
+from donations.models import UploadPhotoToken
 
 
 class PaymentsContextMixin(object):
@@ -160,31 +164,38 @@ def subscribe(request, form_class=PlanForm):
 def donate(request, form_class=DonateForm):
     data = {}
     form = form_class(request.POST)
-    if form.is_valid():
-        print "request.POST:", request.POST
-        print "form:", form
-        try:
-            token = request.POST.get("stripe_token")
 
-            stripe_customer = stripe.Customer.create(source=token)
+    stripe_token = request.POST.get('stripe_token')
+
+    if not form.is_valid():
+        logging.error('invalid donation form, but stripe was processed (stripe token = %s)' % (stripe_token))
+    else:
+        # record the data
+        try:
+            stripe_customer = stripe.Customer.create(source=stripe_token)
 
             customer, customer_created = Customer.objects.get_or_create(stripe_id=stripe_customer.stripe_id, defaults={
-                'card_fingerprint': stripe_customer.cards['data'][0]['fingerprint'],
-                'card_last_4': stripe_customer.cards['data'][0]['last4'],
-                'card_kind': stripe_customer.cards['data'][0]['type'],
+                'name': form.cleaned_data['name'],
+                'address_city': stripe_customer.cards['data'][0]['address_city'],
+                'address_country': stripe_customer.cards['data'][0]['address_country'],
+                'address_line1': stripe_customer.cards['data'][0]['address_line1'],
+                'address_line2': stripe_customer.cards['data'][0]['address_line2'],
+                'address_state': stripe_customer.cards['data'][0]['address_state'],
+                'address_zip': stripe_customer.cards['data'][0]['address_zip'],
+                'email': stripe_customer.cards['data'][0]['name'],
             })
 
-            customer.charge(form.cleaned_data["amount"], send_receipt=False)
-            data["form"] = form_class()
-            data["location"] = request.POST.get('location', reverse("payments_history"))
-        except stripe.StripeError as e:
-            data["form"] = form
-            data["error"] = smart_str(e) or "Unknown error"
-    else:
-        data["error"] = form.errors
-        data["form"] = form
-    return _ajax_response(request, "donations/demo.html", **data)
+            charge = customer.charge(form.cleaned_data["amount"], send_receipt=False)
 
+            upload_token = UploadPhotoToken(customer=customer, charge=charge)
+            upload_token.save()
+
+            return redirect(reverse('donations.views.upload_photo_view', kwargs={'upload_token_value': upload_token.token}))
+        except stripe.StripeError as e:
+            logging.error('error parsing data from stripe (stripe token = %s)' % (stripe_token))
+            logging.error(smart_str(e))
+
+    return HttpResponse('okay, it worked, but something went wrong')
 
 @require_POST
 @login_required

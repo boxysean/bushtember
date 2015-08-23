@@ -9,7 +9,8 @@ class PlanForm(forms.Form):
 
 
 class DonateForm(forms.Form):
-    amount = forms.DecimalField() # TODO: improve
+    name = forms.CharField()
+    amount = forms.DecimalField() # some validation done on javascript, this form is taking the results from stripe, which itself will complain...
 
     def clean(self):
         cleaned_data = super(DonateForm, self).clean()

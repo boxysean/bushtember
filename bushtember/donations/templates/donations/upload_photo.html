@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Thank you</h2>
+            <p>Thank you for your donation of ${{ upload_token.charge.amount }}, {{ customer.name }}! A receipt will be emailed to you at {{ customer.email }}.</p>
+            <p>Now, we would like to invite you to upload your photo to be part of the Bushtember photo collage</p>
+            <div style="height: 300px; background-color: #ff9999;">
+            	<p>Insert stuff about how to do that here</p>
+            </div>
+            <p>Don't worry, if you want to upload a photo later, we've included a link to this page in your receipt email.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

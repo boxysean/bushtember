@@ -25,7 +25,7 @@ from .models import (
     EventProcessingException
 )
 
-from donations.models import UploadPhotoToken
+from donations.models import Donation
 
 
 class PaymentsContextMixin(object):
@@ -187,10 +187,10 @@ def donate(request, form_class=DonateForm):
 
             charge = customer.charge(form.cleaned_data["amount"], send_receipt=False)
 
-            upload_token = UploadPhotoToken(customer=customer, charge=charge)
-            upload_token.save()
+            donation = Donation(customer=customer, charge=charge)
+            donation.save()
 
-            return redirect(reverse('donations.views.upload_photo_view', kwargs={'upload_token_value': upload_token.token}))
+            return redirect(reverse('donations.views.upload_photo_view', kwargs={'donation_token': donation.token}))
         except stripe.StripeError as e:
             logging.error('error parsing data from stripe (stripe token = %s)' % (stripe_token))
             logging.error(smart_str(e))

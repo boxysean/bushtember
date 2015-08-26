@@ -1,17 +1,52 @@
 {% extends 'base.html' %}
+{% load bootstrap_tags %}
+{% load staticfiles %}
+{% load static %}
 
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <h2>Thank you</h2>
-            <p>Thank you for your donation of ${{ upload_token.charge.amount }}, {{ customer.name }}! A receipt will be emailed to you at {{ customer.email }}.</p>
-            <p>Now, we would like to invite you to upload your photo to be part of the Bushtember photo collage</p>
-            <div style="height: 300px; background-color: #ff9999;">
-            	<p>Insert stuff about how to do that here</p>
+            <p>Thank you for your donation of ${{ donation.charge.amount }}, {{ customer.name }}! A receipt will be emailed to you at {{ customer.email }}.</p>
+            <p>Now, we would like to invite you to upload your photo to be part of the Bushtember photo collage. Don't worry, if you want to upload a photo later, we've included a link to this page in your receipt email.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12" style="background-color: #ff9999;">
+            {% if donation.uploaded_image %}
+            <div class="ajaximage">
+                <img class="file-img" src="{% get_media_prefix %}{{ donation.uploaded_image }}" />
+                <p>This photo will be used in the collage</p>
             </div>
-            <p>Don't worry, if you want to upload a photo later, we've included a link to this page in your receipt email.</p>
+            {% else %}
+            <form action="{% url 'donations.views.upload_photo_view' donation.token %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    {{ form|as_bootstrap }}
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" id="submit-photo">Submit photo</button>
+                </div>
+            </form>
+            {% endif %}
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block more-scripts %}
+{{ form.media }}
+<script type="text/javascript">
+(function() {
+    $("#submit-photo").click(function(e) {
+        imgSrc = $(".file-img").attr("src");
+
+        if (!imgSrc) {
+            $('#div_id_image').addClass("has-error");
+            e.preventDefault();
+        }
+    });
+})();
+</script>
 {% endblock %}

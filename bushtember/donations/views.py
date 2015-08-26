@@ -1,10 +1,14 @@
 from django.shortcuts import render, render_to_response, redirect
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.core.signals import request_finished
+from django.db.models import signals
+from django.template import RequestContext
 
 from payments.forms import DonateForm
+from .forms import AjaxImageUploadForm
 
-from .models import UploadPhotoToken
+from .models import Donation
 
 
 def donate_view(request):
@@ -15,24 +19,27 @@ def donate_view(request):
 		'settings': settings,
 	})
 
-def upload_photo_view(request, upload_token_value=None):
-	if upload_token_value is None:
+def upload_photo_view(request, donation_token=None):
+	if donation_token is None:
 		return redirect(reverse(donate_view))
 
-	upload_token = UploadPhotoToken.objects.filter(token=upload_token_value)
+	donation = Donation.objects.filter(token=donation_token).first()
 
-	if len(upload_token) == 0:
+	if donation is None:
 		return redirect(reverse(donate_view))
 
-	upload_token = upload_token.first()
+	if request.method == 'POST':
+		print request.POST
+		donation.uploaded_image = request.POST['image']
+		donation.save()
+		return redirect(upload_photo_view, donation_token=donation_token)
 
-	customer = upload_token.customer
-	print customer
-
-	print upload_token.charge.amount
+	customer = donation.customer
+	form = AjaxImageUploadForm()
 
 	return render_to_response('donations/upload_photo.html', {
 		'settings': settings,
-		'upload_token': upload_token,
-		'customer': customer
-	})
+		'donation': donation,
+		'customer': customer,
+		'form': form
+	}, context_instance=RequestContext(request))

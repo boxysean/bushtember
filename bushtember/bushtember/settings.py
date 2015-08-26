@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django_forms_bootstrap',
     'djmoney',
+    'ajaximage',
     'payments',
     'donations',
 )
@@ -120,7 +121,16 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
 
+# Media files (Uploaded images)
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'www', 'media')
+MEDIA_URL = '/media/'
+
 # Stripe settings
 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "<your publishable test key>")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "<your secret test key>")
+
+# Django-ajaximage settings
+
+AJAXIMAGE_AUTH_TEST = lambda u: True

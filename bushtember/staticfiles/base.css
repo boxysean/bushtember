@@ -89,6 +89,12 @@ body {
   margin-bottom: 0;
 }
 
+/*@media (max-width: 992px) {
+  #amount_other_value {
+    margin-top: 1em;
+  }
+}
+*/
 /* Spinner */
 
 .spinner {

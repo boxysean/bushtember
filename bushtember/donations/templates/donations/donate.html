@@ -22,12 +22,12 @@
 
                 <div class="form-group" id="amount-group">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-xs-12">
                             <label for="id_amount" id="amount_label" class="control-label required-field ">Amount</label>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-xs-8">
                             <div class="btn-group" data-toggle="buttons">
                               <label class="btn btn-primary active">
                                 <input type="radio" name="options" id="amount_10" autocomplete="off">$10
@@ -43,7 +43,7 @@
                               </label>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-xs-4">
                           <input type="text" name="other" id="amount_other_value" autocomplete="off" class="form-control" placeholder="$100">
                       </div>
                     </div>
@@ -78,13 +78,7 @@
 
         $("#amount_other_value").click(function(e) {
             $("#amount_other").click();
-
-            if ($("#amount_other_value").val().length == 0) {
-                $("#amount_other_value").val("$");
-            }
-
             $("#amount_other_value").focus();
-
             $("#amount-group").removeClass("has-error");
         });
 

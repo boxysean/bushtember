@@ -11,6 +11,11 @@ from .forms import AjaxImageUploadForm
 from .models import Donation
 
 
+def test_view(request):
+	return render_to_response('donations/base.html', {
+		'settings': settings,
+	})
+
 def donate_view(request):
 	form = DonateForm()
 

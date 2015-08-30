@@ -1,3 +1,96 @@
+.donate-header {
+    position: relative;
+    width: 100%;
+    height: 38%;
+    position: absolute;/*(or relative)*/
+    z-index: 5000;
+    background-color: #000000;
+    visibility: visible;
+    background-color: rgba(43, 44, 44, 0.7);
+    background: rgba(43, 44, 44, 0.7);
+    color: rgba(43, 44, 44, 0.7);
+}
+.donate-header .image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-repeat:no-repeat;
+    background-position:center bottom;
+    background-image: url('/static/images/fluxfinity_example.jpg');
+    background-size:cover;
+}
+
+.donate-container {
+  position: relative;
+  top: 38%;
+  margin-bottom: 0;
+}
+
+@media (max-width: 992px) {
+  .donate-container, .donate-container-2 {
+    width: 100%;
+  }
+}
+
+
+body {
+  font-family: "PT Sans";
+  background: #EAE9E6;
+  padding-bottom: 0;
+}
+
+
+.donate-info {
+  background: #F20024;
+  text-align: center;
+  border-radius: 25px;
+  margin-top: 25px;
+  padding: 25px;
+}
+
+@media (max-width: 992px) {
+  .donate-info {
+    border-radius: 0;
+    margin-top: 0;
+  }
+}
+
+.donate-info img {
+  max-width:100%;
+  max-height:100%;
+}
+
+.donate-form {
+  /*border-radius: 25px;*/
+  background: #EAE9E6;
+  padding: 50px;
+  margin-top: 0;
+}
+
+@media (max-width: 992px) {
+  .donate-form {
+    padding: 25px;
+    margin-top: 0;
+  }
+}
+
+.donate-form h2 {
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.donate-footer {
+  background: #FFFFFF;
+  text-align: center;
+}
+
+.donate-footer p {
+  padding: 20px;
+  margin-bottom: 0;
+}
+
+/* Spinner */
+
 .spinner {
   display: inline-block;
   opacity: 0;

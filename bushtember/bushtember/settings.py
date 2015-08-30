@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'ajaximage',
     'payments',
     'donations',
+    'djrill',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -134,3 +135,9 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "<your secret test key>"
 # Django-ajaximage settings
 
 AJAXIMAGE_AUTH_TEST = lambda u: True
+
+# Mandrill settings
+
+MANDRILL_API_KEY = os.environ.get('MANDRILL_API_KEY', "<Mandrill API key>")
+EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', "donate@bushtember.org")

@@ -1,13 +1,17 @@
 {% extends 'base.html' %}
 {% load url from future %}
 {% load bootstrap_tags %}
+{% load staticfiles %}
 
 {% block content %}
-<div class="container">
+<div class="container donate-container-2">
     <div class="row">
-        <div class="col-md-4 donate-form">
-            <h2>Donate to Bushtember</h2>
-            <p>Choose a donation amount:</p>
+        <div class="col-md-6 banner donate-info">
+            <h1>Be a #LetsFaceItPeriod Donor</h1>
+            <img src="{% static 'images/donate.png' %}" />
+        </div>
+        <div class="col-md-6 donate-form">
+            <p>These are the faces of the people who have donated from around the world. Give money and join the Global Groupie to support our foundation and partners in Kenya, Tanzania, Nepal, South Sudan and New York.</p>
             {% if error %}
             <div class="alert alert-error">{{ error }}</div>
             {% endif %}
@@ -16,12 +20,17 @@
                 {{ form|as_bootstrap }}
                 <button type="submit" class="btn btn-primary has-spinner" id="donate-button"><span class="spinner"><i class="glyphicon glyphicon-refresh glyphicon-spin "></i></span>Donate</button>
 
+                &nbsp;&nbsp;<img src="{% static 'images/stripe/outline.png' %}" />
+
                 <input name="stripe_token" type="hidden" />
                 <input name="location" type="hidden" value="{% url 'donations.views.upload_photo_view' %}" />
             </form>
+            <p><em>Donations are administered by NFCC International as fiscal sponsor. All donations are tax deductible.</em></p>
         </div>
     </div>
+
 </div>
+
 {% endblock %}
 
 {% block more-scripts %}

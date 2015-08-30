@@ -9,7 +9,7 @@
         <div class="col-md-6 donate-form">
             <div class="row">
                 <div class="col-md-12">
-                    <p>Thank you for donating to the #LetsFaceItPeriod campaign.
+                    <h4>Thank you for donating to the #LetsFaceItPeriod campaign.</h4>
                     <p>Your donation will make a real difference for women and girls, through helping our partners provide menstrual hygiene products and training on menstrual health and menstrual hygiene management.</p>
                     <p>We are proud of your support, and would like to invite you to upload a photo to become part of our Global Groupie. (Don't worry, if you want to upload a photo later, we've included a link to this page in your receipt email.)</p>
                 </div>
@@ -24,13 +24,13 @@
                 </div>
             </div>
             {% else %}
-            <form action="{% url 'donations.views.upload_photo_view' donation.token %}" method="POST">
+            <form action="{% url 'donations.views.upload_photo_view' donation.token %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="ajaximage">
-                            {{ form|as_bootstrap }}
-                        </div>
+                        <p>
+                            <input id="id_image" type="file" class="" name="image">
+                        </p>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 1em;">
@@ -54,9 +54,9 @@
 <script type="text/javascript">
 (function() {
     $("#submit-photo").click(function(e) {
-        imgSrc = $(".file-img").attr("src");
+        var image = $("#id_image");
 
-        if (!imgSrc) {
+        if (!image.val()) {
             $('#div_id_image').addClass("has-error");
             e.preventDefault();
         }

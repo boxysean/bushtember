@@ -1,4 +1,5 @@
 from uuid import uuid4
+from django.conf import settings
 
 from django.db import models
 
@@ -12,11 +13,11 @@ class Donation(models.Model):
 	token = models.CharField(max_length=36, null=False, default=generate_token)
 	customer = models.ForeignKey(Customer)
 	charge = models.ForeignKey(Charge)
-	uploaded_image = models.CharField(max_length=255, null=True, blank=True)
+	uploaded_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')
 	uploaded_image_approved = models.NullBooleanField(null=True)
-	modified_image = models.ImageField(null=True, blank=True)
+	modified_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')
 	modified_image_approved = models.NullBooleanField(null=True)
-	collage_image = models.ImageField(null=True, blank=True)
+	collage_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')
 
 	def __unicode__(self):
 		return u'<Donation ({0}, ${1})>'.format(self.customer.name, self.charge.amount)

@@ -1,7 +1,6 @@
 from django import forms
 
-from ajaximage.widgets import AjaxImageWidget
 
-
-class AjaxImageUploadForm(forms.Form):
-    image = forms.CharField(widget=AjaxImageWidget(upload_to='uploads'))
+class ImageUploadForm(forms.Form):
+    # image = forms.CharField(widget=AjaxImageWidget(upload_to='uploads'))
+    image = forms.ImageField()

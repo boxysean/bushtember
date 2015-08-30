@@ -37,6 +37,9 @@ body {
   padding-bottom: 0;
 }
 
+img {
+    image-orientation: from-image;
+}
 
 .donate-info {
   background: #F20024;

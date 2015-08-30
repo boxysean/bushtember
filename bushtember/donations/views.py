@@ -6,7 +6,7 @@ from django.db.models import signals
 from django.template import RequestContext
 
 from payments.forms import DonateForm
-from .forms import AjaxImageUploadForm
+from .forms import ImageUploadForm
 
 from .models import Donation
 
@@ -35,12 +35,22 @@ def upload_photo_view(request, donation_token=None):
 
 	if request.method == 'POST':
 		print request.POST
-		donation.uploaded_image = request.POST['image']
-		donation.save()
-		return redirect(upload_photo_view, donation_token=donation_token)
+
+		print request.FILES
+
+		form = ImageUploadForm(request.POST, request.FILES)
+
+		if form.is_valid():
+			donation.uploaded_image = form.cleaned_data['image']
+			print "-->>", donation.uploaded_image
+			donation.save()
+			return redirect(upload_photo_view, donation_token=donation_token)
+
+		return HttpResponse(status=500)
+
 
 	customer = donation.customer
-	form = AjaxImageUploadForm()
+	form = ImageUploadForm()
 
 	return render_to_response('donations/upload_photo.html', {
 		'settings': settings,
@@ -48,3 +58,4 @@ def upload_photo_view(request, donation_token=None):
 		'customer': customer,
 		'form': form
 	}, context_instance=RequestContext(request))
+

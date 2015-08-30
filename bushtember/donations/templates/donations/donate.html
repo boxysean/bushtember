@@ -18,9 +18,44 @@
             <form action="{% url 'payments_ajax_donate' %}" class="form"  data-stripe-key="{{ settings.STRIPE_PUBLIC_KEY }}" data-replace-closest=".donate-form" method="POST">
                 {% csrf_token %}
                 {{ form|as_bootstrap }}
-                <button type="submit" class="btn btn-primary has-spinner" id="donate-button"><span class="spinner"><i class="glyphicon glyphicon-refresh glyphicon-spin "></i></span>Donate</button>
 
-                &nbsp;&nbsp;<img src="{% static 'images/stripe/outline.png' %}" />
+
+                <div class="form-group" id="amount-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="id_amount" id="amount_label" class="control-label required-field ">Amount</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="btn-group" data-toggle="buttons">
+                              <label class="btn btn-primary active">
+                                <input type="radio" name="options" id="amount_10" autocomplete="off">$10
+                              </label>
+                              <label class="btn btn-primary">
+                                <input type="radio" name="options" id="amount_25" autocomplete="off" checked>$25
+                              </label>
+                              <label class="btn btn-primary">
+                                <input type="radio" name="options" id="amont_50" autocomplete="off">$50
+                              </label>
+                              <label class="btn btn-primary">
+                                <input type="radio" name="options" id="amount_other" autocomplete="off">Other
+                              </label>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                          <input type="text" name="other" id="amount_other_value" autocomplete="off" class="form-control" placeholder="$100">
+                      </div>
+                    </div>
+
+              </div>
+
+                <div class="row form-group" style="margin-top: 2em;">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary has-spinner" id="donate-button"><span class="spinner"><i class="glyphicon glyphicon-refresh glyphicon-spin "></i></span>Donate</button>
+                        &nbsp;&nbsp;<img src="{% static 'images/stripe/outline.png' %}" />
+                    </div>
+                </div>
 
                 <input name="stripe_token" type="hidden" />
                 <input name="location" type="hidden" value="{% url 'donations.views.upload_photo_view' %}" />
@@ -41,17 +76,48 @@
             $(this).parent().parent().removeClass("has-error");
         });
 
+        $("#amount_other_value").click(function(e) {
+            $("#amount_other").click();
+
+            if ($("#amount_other_value").val().length == 0) {
+                $("#amount_other_value").val("$");
+            }
+
+            $("#amount_other_value").focus();
+
+            $("#amount-group").removeClass("has-error");
+        });
+
+        $("#amount_25").click();
+
         $('body').on("click", '.change-card, .donate-form button[type=submit]', function(e) {
             e.preventDefault();
 
             var money_regex = /^\+?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/;
 
             var error = false;
-            var amount = $('#id_amount').val();
+            var amount = -1;
+
+            var checked_id = $('input[name=options]:checked', '#amount-group').attr("id");
+
+            if (checked_id == "amount_10") {
+                amount = 10;
+            } else if (checked_id == "amount_25") {
+                amount = 25;
+            } else if (checked_id == "amount_50") {
+                amount = 50;
+            } else if (checked_id == "amount_other") {
+                amount = $("#amount_other_value").val().trim();
+                if (amount[0] == '$') {
+                    amount = amount.substring(1);
+                }
+                amount = amount.trim();
+            }
+
             var name = $('#id_name').val()
 
-            if (!money_regex.test(amount) || parseFloat(amount) <= 0) {
-                $('#id_amount').parent().parent().addClass("has-error");
+            if (!money_regex.test(amount) || parseFloat(amount) < 1) {
+                $('#amount-group').addClass("has-error");
                 error = true;
             }
 
@@ -70,6 +136,7 @@
                 // This gets triggered if StripeCheckout.open() is executing the transaction
                 
                 form.find("input[name=stripe_token]").val(res.id);
+                form.find("input[name=amount]").val(amount);
                 form.trigger("submit");
 
                 $('#donate-button').addClass('active')
@@ -78,8 +145,9 @@
 
             StripeCheckout.open({
                 key:         form.data("stripe-key"),
-                name:        'Bushtember',
-                description: 'Donating to Bushtember',
+                name:        '#LetsFaceItPeriod',
+                // description: 'Fiscal sponsorship by NFCC International',
+                description:    'Support menstrual health and hygiene',
                 amount:      parseFloat(amount) * 100,
                 panelLabel:  'Donate',
                 token:       token

@@ -185,7 +185,7 @@ def donate(request, form_class=DonateForm):
                 'email': stripe_customer.cards['data'][0]['name'],
             })
 
-            charge = customer.charge(form.cleaned_data["amount"], send_receipt=False)
+            charge = customer.charge(form.cleaned_data['amount'], send_receipt=False)
 
             donation = Donation(customer=customer, charge=charge)
             donation.save()
@@ -194,6 +194,7 @@ def donate(request, form_class=DonateForm):
         except stripe.StripeError as e:
             logging.error('error parsing data from stripe (stripe token = %s)' % (stripe_token))
             logging.error(smart_str(e))
+            return HttpResponse(status=500)
 
     return HttpResponse('okay, it worked, but something went wrong')
 

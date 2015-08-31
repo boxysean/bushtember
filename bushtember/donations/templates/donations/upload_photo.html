@@ -17,9 +17,9 @@
             {% if donation.uploaded_image %}
             <div class="row">
                 <div class="col-md-12">
-                    <div class="ajaximage">
-                        <img class="file-img" src="{% get_media_prefix %}uploads/{{ uploaded_image }}" />
-                        <p>This photo will be used in the collage</p>
+                    <div>
+                        <p><img class="uploaded-image" src="{% get_media_prefix %}uploads/{{ uploaded_image }}" /></p>
+                        <p>This photo will be used in the collage. (Don't worry if it's rotated, we'll fix it for you.)</p>
                     </div>
                 </div>
             </div>

@@ -193,6 +193,11 @@ def donate(request, form_class=DonateForm):
             charge.send_receipt()
 
             response = redirect(reverse('donations.views.upload_photo_view', kwargs={'donation_token': donation.token}))
+
+            print 'RESPONSE'
+            for key in dir(response):
+                print key, getattr(response, key)
+
             return response
 
         except stripe.StripeError as e:

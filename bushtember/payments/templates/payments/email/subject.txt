@@ -1,1 +1,1 @@
-[#LetsFaceItPeriod] Donation Receipt (#{{ charge.pk }})
+Donation Receipt (#{{ charge.pk }})

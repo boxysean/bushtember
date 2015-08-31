@@ -25,6 +25,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!$ks1p+4l9$#w7#^iin0tlb!@giex0
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', 'false').lower() == 'true'
 
+SSLIFY_DISABLE = DEBUG
+
 ALLOWED_HOSTS = ['donate.bushtember.org', 'localhost']
 
 USE_X_FORWARDED_HOST = True
@@ -50,6 +52,7 @@ INSTALLED_APPS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'sslify.middleware.SSLifyMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,6 +62,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
 )
+
+# if not DEBUG:
+#     print 'here????'
+#     MIDDLEWARE_CLASSES = tuple(['sslify.middleware.SSLifyMiddleware'] + list(MIDDLEWARE_CLASSES))
+# else:
+#     print 'not here...'
+
 
 ROOT_URLCONF = 'bushtember.urls'
 

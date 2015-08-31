@@ -41,8 +41,8 @@ def upload_photo_view(request, donation_token=None):
 		form = ImageUploadForm(request.POST, request.FILES)
 
 		if form.is_valid():
-			donation.uploaded_image = form.cleaned_data['image']
-			print "-->>", donation.uploaded_image
+			image = form.cleaned_data['image']
+			donation.uploaded_image = image
 			donation.save()
 			return redirect(upload_photo_view, donation_token=donation_token)
 
@@ -52,10 +52,13 @@ def upload_photo_view(request, donation_token=None):
 	customer = donation.customer
 	form = ImageUploadForm()
 
+	uploaded_image = donation.uploaded_image.name.split('/')[-1]
+
 	return render_to_response('donations/upload_photo.html', {
 		'settings': settings,
 		'donation': donation,
 		'customer': customer,
-		'form': form
+		'form': form,
+		'uploaded_image': uploaded_image
 	}, context_instance=RequestContext(request))
 

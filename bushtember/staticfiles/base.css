@@ -90,12 +90,10 @@ img {
   margin-bottom: 0;
 }
 
-/*@media (max-width: 992px) {
-  #amount_other_value {
-    margin-top: 1em;
-  }
+.file-img {
+  max-width: 100%;
 }
-*/
+
 /* Spinner */
 
 .spinner {

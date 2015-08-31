@@ -35,7 +35,6 @@ def upload_photo_view(request, donation_token=None):
 
 	if request.method == 'POST':
 		print request.POST
-
 		print request.FILES
 
 		form = ImageUploadForm(request.POST, request.FILES)
@@ -45,8 +44,9 @@ def upload_photo_view(request, donation_token=None):
 			donation.uploaded_image = image
 			donation.save()
 			return redirect(upload_photo_view, donation_token=donation_token)
-
-		return HttpResponse(status=500)
+		else:
+			logging.error(form.errors)
+			return HttpResponse(status=500)
 
 
 	customer = donation.customer

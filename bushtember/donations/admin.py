@@ -11,7 +11,7 @@ class DonationAdmin(admin.ModelAdmin):
 
 	def uploaded_image_readonly(self, instance):
 		uploaded_image = instance.uploaded_image.name.split('/')[-1]
-		return mark_safe('<img width=400 src="{0}/uploads/{1}"><br><a href="{0}{1}">Download</a>'.format(settings.MEDIA_URL, uploaded_image))
+		return mark_safe('<img width=400 src="{0}{1}"><br><a href="{0}{1}">Download</a>'.format(settings.MEDIA_URL + "uploads/", uploaded_image))
 
 	uploaded_image_readonly.short_description = "Image uploaded by user"
 

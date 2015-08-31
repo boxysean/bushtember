@@ -10,7 +10,8 @@ class DonationAdmin(admin.ModelAdmin):
 	readonly_fields = ('uploaded_image_readonly', 'amount_charged')
 
 	def uploaded_image_readonly(self, instance):
-		return mark_safe('<img width=400 src="{0}{1}"><br><a href="{0}{1}">Download</a>'.format(settings.MEDIA_URL, instance.uploaded_image))
+		uploaded_image = instance.uploaded_image.name.split('/')[-1]
+		return mark_safe('<img width=400 src="{0}/uploads/{1}"><br><a href="{0}{1}">Download</a>'.format(settings.MEDIA_URL, uploaded_image))
 
 	uploaded_image_readonly.short_description = "Image uploaded by user"
 

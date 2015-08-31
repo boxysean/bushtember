@@ -203,7 +203,7 @@ def donate(request, form_class=DonateForm):
             logging.error(smart_str(e))
             return HttpResponse(status=500)
 
-    return HttpResponse(status=500)
+    return HttpResponse(status=500) # I think it worked, but not sure why it's returning 500
 
 @require_POST
 @login_required

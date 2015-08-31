@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', '!$ks1p+4l9$#w7#^iin0tlb!@giex0dg)v+0!_$z@n$qh%j2r7')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = os.environ.get('DJANGO_DEBUG', 'false').lower() == 'true'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['donate.bushtember.org', 'localhost']
 
 USE_X_FORWARDED_HOST = True
 
@@ -114,20 +114,31 @@ USE_L10N = True
 
 USE_TZ = True
 
+# AWS settings
 
-# Static files (CSS, JavaScript, Images)
+AWS_STORAGE_BUCKET_NAME = 'bushtember'
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+# Static files (CSS, JavaScript, Images) and Media files (Uploaded images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'static')
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
-)
-
-# Media files (Uploaded images)
-
-MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'www', 'media')
-MEDIA_URL = '/media/'
+if DEBUG:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'static')
+    STATICFILES_DIRS = (
+        os.path.join(BASE_DIR, 'staticfiles'),
+    )
+    MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'www', 'media')
+    MEDIA_URL = '/media/'
+else:
+    STATICFILES_LOCATION = 'static'
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+    MEDIAFILES_LOCATION = 'media'
+    MEDIA_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, MEDIAFILES_LOCATION)
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
 
 # Stripe settings
 
@@ -140,9 +151,3 @@ PAYMENTS_INVOICE_FROM_EMAIL = os.environ.get('PAYMENTS_INVOICE_FROM_EMAIL', '"#L
 MANDRILL_API_KEY = os.environ.get('MANDRILL_API_KEY', "<Mandrill API key>")
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', "donate@bushtember.org")
-
-# AWS settings
-
-AWS_STORAGE_BUCKET_NAME = 'bushtember'
-AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')

@@ -192,13 +192,18 @@ def donate(request, form_class=DonateForm):
 
             charge.send_receipt()
 
-            return redirect(reverse('donations.views.upload_photo_view', kwargs={'donation_token': donation.token}))
+            response = redirect(reverse('donations.views.upload_photo_view', kwargs={'donation_token': donation.token}))
+            print 'response:', response
+            print 'reverse:', reverse('donations.views.upload_photo_view')
+
+            return response
+
         except stripe.StripeError as e:
             logging.error('error parsing data from stripe (stripe token = %s)' % (stripe_token))
             logging.error(smart_str(e))
             return HttpResponse(status=500)
 
-    return HttpResponse('okay, it worked, but something went wrong')
+    return HttpResponse(status=500)
 
 @require_POST
 @login_required

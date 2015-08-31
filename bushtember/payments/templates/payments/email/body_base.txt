@@ -2,8 +2,7 @@ Thank you for donating to the #LetsFaceItPeriod campaign.
 
 Your donation will make a real difference for women and girls, through helping our partners provide menstrual hygiene products and training on menstrual health and menstrual hygiene management. 
 
-{% if charge.amount >= 500 %}
-Our team will contact you shortly to thank you in person.
+{% if charge.amount >= 500 %}Our team will contact you shortly to thank you in person.
 
 {% endif %}We are proud of your support, and would like to invite you to upload a photo to become part of our Global Groupie. Please upload the photo here: https://donate.bushtember.org/donation/{{ token }}/
 

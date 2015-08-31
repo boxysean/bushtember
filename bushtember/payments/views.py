@@ -198,6 +198,10 @@ def donate(request, form_class=DonateForm):
             for key in dir(response):
                 print key, getattr(response, key)
 
+            print 'REQUEST'
+            for key in dir(response):
+                print key, getattr(response, key)
+
             return response
 
         except stripe.StripeError as e:

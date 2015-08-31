@@ -13,11 +13,11 @@ class Donation(models.Model):
 	token = models.CharField(max_length=36, null=False, default=generate_token, db_index=True)
 	customer = models.ForeignKey(Customer)
 	charge = models.ForeignKey(Charge)
-	uploaded_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')
+	uploaded_image = models.ImageField(null=True, blank=True, upload_to='uploads')
 	uploaded_image_approved = models.NullBooleanField(null=True)
-	modified_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')
+	modified_image = models.ImageField(null=True, blank=True, upload_to='uploads')
 	modified_image_approved = models.NullBooleanField(null=True)
-	collage_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')
+	collage_image = models.ImageField(null=True, blank=True, upload_to='uploads')
 
 	def __unicode__(self):
 		return u'<Donation ({0}, ${1})>'.format(self.customer.name, self.charge.amount)

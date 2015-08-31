@@ -10,7 +10,7 @@ def generate_token():
 
 class Donation(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True)
-	token = models.CharField(max_length=36, null=False, default=generate_token)
+	token = models.CharField(max_length=36, null=False, default=generate_token, db_index=True)
 	customer = models.ForeignKey(Customer)
 	charge = models.ForeignKey(Charge)
 	uploaded_image = models.ImageField(null=True, blank=True, upload_to=settings.MEDIA_ROOT + '/uploads/')

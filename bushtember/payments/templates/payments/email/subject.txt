@@ -1,1 +1,1 @@
-[{{ site.name }}] Payment Receipt (Invoice #{{ charge.pk }})
+[#LetsFaceItPeriod] Donation Receipt (#{{ charge.pk }})

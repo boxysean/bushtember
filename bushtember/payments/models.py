@@ -891,12 +891,16 @@ class Charge(StripeObject):
 
     def send_receipt(self):
         if not self.receipt_sent:
-            site = Site.objects.get_current()
+            # site = Site.objects.get_current()
+            site = 'bushtember.org'
             protocol = getattr(settings, "DEFAULT_HTTP_PROTOCOL", "http")
+            import pdb; pdb.set_trace()
+
             ctx = {
                 "charge": self,
                 "site": site,
                 "protocol": protocol,
+                "token": self.donation_set.first().token
             }
             subject = render_to_string("payments/email/subject.txt", ctx)
             subject = subject.strip()
@@ -904,7 +908,7 @@ class Charge(StripeObject):
             num_sent = EmailMessage(
                 subject,
                 message,
-                to=[self.customer.user.email],
+                to=[self.customer.email],
                 from_email=INVOICE_FROM_EMAIL
             ).send()
             self.receipt_sent = num_sent > 0

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '!$ks1p+4l9$#w7#^iin0tlb!@giex0dg)v+0!_$z@n$qh%j2r7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DEBUG', True))
 
 ALLOWED_HOSTS = []
 
@@ -131,10 +131,7 @@ MEDIA_URL = '/media/'
 
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "<your publishable test key>")
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "<your secret test key>")
-
-# Django-ajaximage settings
-
-AJAXIMAGE_AUTH_TEST = lambda u: True
+PAYMENTS_INVOICE_FROM_EMAIL = os.environ.get('PAYMENTS_INVOICE_FROM_EMAIL', '"#LetsFaceItPeriod Campaign" <admin@bushtember.org>')
 
 # Mandrill settings
 

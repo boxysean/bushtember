@@ -1,27 +1,20 @@
-{% if charge.paid %}Your {{ site.name }} account was successfully charged ${{ charge.amount|floatformat:2 }} to the credit card ending in {{ charge.card_last_4 }}. The invoice below is for your records.
+Thank you for donating to the #LetsFaceItPeriod campaign.
 
+Your donation will make a real difference for women and girls, through helping our partners provide menstrual hygiene products and training on menstrual health and menstrual hygiene management. 
+
+{% if charge.amount >= 500 %}
+Our team will contact you shortly to thank you in person.
+
+{% endif %}We are proud of your support, and would like to invite you to upload a photo to become part of our Global Groupie. Please upload the photo here: https://donate.bushtember.org/donation/{{ token }}/
 
 ========================================================
-INVOICE #{{ charge.pk }}     {{ charge.created_at|date:"F d, Y" }}
+RECEIPT #{{ charge.pk }}     {{ charge.created_at|date:"F d, Y" }}
 ........................................................
 
+CUSTOMER: {{ charge.customer.name }}
+PAID BY CREDIT CARD: ${{ charge.amount|floatformat:2 }}
+CREDIT CARD: **** **** **** {{ charge.card_last_4 }}
 
-CUSTOMER: {% block customer_name %}{{ charge.customer.user }}{% endblock %}
-
-
-DETAILS
--------
-{{ charge.customer.current_subscription.plan_display }} - ${{ charge.amount|floatformat:2 }}
-
-TOTAL: ${{ charge.amount|floatformat:2 }} USD
-PAID BY CREDIT CARD: -${{ charge.amount|floatformat:2 }}
 ========================================================
-{% else %}{% if charge.refunded %}Your credit card ending in {{ charge.card_last_4 }} was refunded ${{ charge.amount|floatformat:2 }}.
-{% else %}We are sorry, but we failed to charge your credit card ending in {{ charge.card_last_4 }} for the amount ${{ charge.amount|floatformat:2 }}.
-{% endif %}{% endif %}
 
-Please contact us with any questions regarding this invoice.
-
----
-Your {{ site.name }} Team
-{{ protocol }}://{{ site.domain }}
+Please contact us at admin@bushtember.org with any questions regarding this receipt.

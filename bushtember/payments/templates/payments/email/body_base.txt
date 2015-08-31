@@ -4,7 +4,7 @@ Your donation will make a real difference for women and girls, through helping o
 
 {% if charge.amount >= 500 %}Our team will contact you shortly to thank you in person.
 
-{% endif %}We are proud of your support, and would like to invite you to upload a photo to become part of our Global Groupie. Please upload the photo here: https://donate.bushtember.org/donation/{{ token }}/
+{% endif %}We are proud of your support, and would like to invite you to upload a photo to become part of our Collective Selfie. Please upload the photo here: https://donate.bushtember.org/donation/{{ token }}/
 
 ========================================================
 RECEIPT #{{ charge.pk }}     {{ charge.created_at|date:"F d, Y" }}

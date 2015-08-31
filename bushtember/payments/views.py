@@ -190,8 +190,6 @@ def donate(request, form_class=DonateForm):
             donation = Donation(customer=customer, charge=charge)
             donation.save()
 
-            print 'made donation!'
-
             charge.send_receipt()
 
             return redirect(reverse('donations.views.upload_photo_view', kwargs={'donation_token': donation.token}))

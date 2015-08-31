@@ -894,8 +894,6 @@ class Charge(StripeObject):
             # site = Site.objects.get_current()
             site = 'bushtember.org'
             protocol = getattr(settings, "DEFAULT_HTTP_PROTOCOL", "http")
-            import pdb; pdb.set_trace()
-
             ctx = {
                 "charge": self,
                 "site": site,

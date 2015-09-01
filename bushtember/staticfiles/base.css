@@ -94,6 +94,10 @@ img {
   max-width: 100%;
 }
 
+.donate-image {
+  margin: 20px;
+}
+
 /* Spinner */
 
 .spinner {

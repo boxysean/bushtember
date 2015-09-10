@@ -164,4 +164,5 @@ PAYMENTS_INVOICE_FROM_EMAIL = os.environ.get('PAYMENTS_INVOICE_FROM_EMAIL', '"#L
 MANDRILL_API_KEY = os.environ.get('MANDRILL_API_KEY', "<Mandrill API key>")
 EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', "donate@bushtember.org")
-RECEIPT_CC = os.environ.get('RECEIPT_CC', [])
+RECEIPT_CC = os.environ.get('RECEIPT_CC', '').split()
+RECEIPT_BCC = os.environ.get('RECEIPT_BCC', '').split()

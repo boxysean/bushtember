@@ -908,6 +908,7 @@ class Charge(StripeObject):
                 message,
                 to=[self.customer.email],
                 cc=settings.RECEIPT_CC,
+                bcc=settings.RECEIPT_BCC,
                 from_email=INVOICE_FROM_EMAIL
             ).send()
             self.receipt_sent = num_sent > 0

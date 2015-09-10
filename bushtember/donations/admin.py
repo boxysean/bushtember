@@ -7,7 +7,7 @@ from .models import Donation
 class DonationAdmin(admin.ModelAdmin):
 	exclude = ('uploaded_image', 'charge')
 	list_display = ('token', 'customer', 'date_created')
-	readonly_fields = ('uploaded_image_readonly', 'amount_charged')
+	readonly_fields = ('uploaded_image_readonly', 'amount_charged', 'email')
 
 	def uploaded_image_readonly(self, instance):
 		uploaded_image = instance.uploaded_image.name.split('/')[-1]
@@ -17,5 +17,8 @@ class DonationAdmin(admin.ModelAdmin):
 
 	def amount_charged(self, instance):
 		return '${0}'.format(instance.charge.amount)
+
+	def email(self, instance):
+		return '{0}'.format(instance.customer.email)
 
 admin.site.register(Donation, DonationAdmin)

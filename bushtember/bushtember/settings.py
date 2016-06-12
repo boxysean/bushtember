@@ -47,7 +47,7 @@ INSTALLED_APPS = (
     'ajaximage',
     'payments',
     'donations',
-    'djrill',
+    'django_ses',
     'storages',
 )
 
@@ -161,8 +161,7 @@ PAYMENTS_INVOICE_FROM_EMAIL = os.environ.get('PAYMENTS_INVOICE_FROM_EMAIL', '"#L
 
 # Mandrill settings
 
-MANDRILL_API_KEY = os.environ.get('MANDRILL_API_KEY', "<Mandrill API key>")
-EMAIL_BACKEND = "djrill.mail.backends.djrill.DjrillBackend"
+EMAIL_BACKEND = 'django_ses.SESBackend'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', "donate@bushtember.org")
 RECEIPT_CC = os.environ.get('RECEIPT_CC', '').split()
 RECEIPT_BCC = os.environ.get('RECEIPT_BCC', '').split()

@@ -24,3 +24,5 @@ urlpatterns = [
     url(r'^ajaximage/', include('ajaximage.urls')),
     url(r'^', include('donations.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += (url(r'^admin/django-ses/', include('django_ses.urls')),)

@@ -159,9 +159,11 @@ STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "<your publishable test 
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "<your secret test key>")
 PAYMENTS_INVOICE_FROM_EMAIL = os.environ.get('PAYMENTS_INVOICE_FROM_EMAIL', '"#LetsFaceItPeriod Campaign" <admin@bushtember.org>')
 
-# Mandrill settings
+# Email settings
 
 EMAIL_BACKEND = 'django_ses.SESBackend'
 DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', "admin@bushtember.org")
 RECEIPT_CC = os.environ.get('RECEIPT_CC', '').split()
 RECEIPT_BCC = os.environ.get('RECEIPT_BCC', '').split()
+AWS_SES_REGION_NAME = 'us-west-2'
+AWS_SES_REGION_ENDPOINT = 'email.us-west-2.amazonaws.com'

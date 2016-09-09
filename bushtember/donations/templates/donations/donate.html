@@ -11,9 +11,8 @@
             <img class="donate-image" src="{% static 'images/donate.png' %}" />
         </div>
         <div class="col-md-6 col-lg-offset-3 col-lg-6 donate-form">
-            <p>These are the faces of the people who have donated from around the world. Give money and join the <b>Collective Selfie</b> to support our campaign and partners in Kenya, Tanzania, Nepal, South Sudan and the USA.</p>
-            <p>The three highest donors and three random donors will be selected to receive a print of the Collective Selfie at the end of the campaign.</p>
-            {% if error %}
+            <p>These are the faces of the people who have donated from around the world. Take a selfie with red lipstick and donate to support our campaign and partners in Kenya, Tanzania, Nepal, South Sudan and the USA.</p>
+          {% if error %}
             <div class="alert alert-error">{{ error }}</div>
             {% endif %}
             <form action="{% url 'payments_ajax_donate' %}" class="form"  data-stripe-key="{{ settings.STRIPE_PUBLIC_KEY }}" data-replace-closest=".donate-form" method="POST">
